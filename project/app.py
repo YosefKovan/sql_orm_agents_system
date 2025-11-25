@@ -20,12 +20,14 @@ def main():
     # create_report(agent_id=1, terrorist_id=1, report="world")
     # create_report(agent_id=1, terrorist_id=1, report="world")
     # create_report(agent_id=1, terrorist_id=1, report="world")
+    #
+    #
+    #
+    # delete_report_by_report_id(2)
 
+    print(get_agent_by_agent_id(value = '123456789'))
 
-
-    delete_report_by_report_id(2)
-
-    get_dangerous_terrorists_ids()
+    #print(get_dangerous_terrorists_ids(engine))
 
 
 

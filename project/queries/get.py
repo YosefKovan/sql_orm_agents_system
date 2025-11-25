@@ -2,19 +2,22 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select, func
 from project.schemes.agent import Agent
 from project.schemes.terrorist import Terrorist
 from project.schemes.report import Report
+from project.db.init_db import engine
 
 
 def session_wrapper(func):
 
-    def inner(engine, **kwargs):
+    def inner(**kwargs):
 
         with Session(engine) as session:
 
             statement = func(kwargs["value"])
             results = session.exec(statement).all()
 
+            print(results)
+
             for result in results:
-                print(result.id)
+                print(result)
 
             return results
 
@@ -36,11 +39,20 @@ def get_agent_by_agent_id(agent_id : str):
     return statement
 
 @session_wrapper
+def get_agent_by_name(name : str):
+    return select(Agent).where(Agent.name == name)
+
+def get_agent_password(password : str):
+    return select(Agent).where(Agent.password == password)
+
+
+@session_wrapper
 def get_agent_by_primary_key(key : int):
     statement = select(Agent).where(Agent.id == key)
     return statement
 
+@session_wrapper
 def get_dangerous_terrorists_ids():
-    select(func.count(Report)).column(Report.terrorist_id).group_by(Report.terrorist_id)
+    return select(Report.id, func.count()).group_by(Report.terrorist_id)
 
 

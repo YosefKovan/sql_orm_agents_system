@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, create_engine
+from sqlmodel import SQLModel, create_engine, Session
 from project.schemes.agent import Agent
 from project.schemes.terrorist import Terrorist
 from project.schemes.report import Report
@@ -12,8 +12,12 @@ def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
 
-if __name__ == "__main__":
-    create_db_and_tables()
+def get_session():
+    with Session(engine) as session:
+        yield session
+
+
+
 
 
 
